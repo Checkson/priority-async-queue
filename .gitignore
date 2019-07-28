@@ -1,0 +1,12 @@
+# mac
+.DS_Store
+/__MACOSX
+
+# idea
+.idea
+
+# libraries
+/node_modules
+
+# production
+/dist
