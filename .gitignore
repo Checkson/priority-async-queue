@@ -4,6 +4,7 @@
 
 # idea
 .idea
+.vscode
 
 # libraries
 /node_modules
