@@ -1,10 +1,10 @@
 {
   "name": "priority-async-queue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A priority async queue plugin for node.js",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js",
+    "test": "jest test/",
     "lint": "eslint --ext .js lib/ --ext .js test/",
     "lintFix": "eslint --fix --ext .js lib/ --fix --ext .js test/"
   },
