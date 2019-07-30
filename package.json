@@ -1,10 +1,9 @@
 {
   "name": "priority-async-queue",
-  "version": "1.0.2",
+  "version": "1.1.2",
   "description": "A priority async queue plugin for node.js",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "jest test/",
     "lint": "eslint --ext .js lib/ --ext .js test/",
     "lintFix": "eslint --fix --ext .js lib/ --fix --ext .js test/"
   },
@@ -19,6 +18,9 @@
     "defer",
     "task"
   ],
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "author": "Checkson",
   "license": "MIT",
   "bugs": {

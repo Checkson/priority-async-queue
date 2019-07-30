@@ -2,12 +2,16 @@
 
 A priority async queue plugin for node.js.
 
-# install
+## install
 
 ```
-# npm
-npm install priority-async-queue --save
-
-# yarn
-yarn add priority-async-queue
+$ npm install priority-async-queue --save
 ```
+
+**or**
+
+```
+$ yarn add priority-async-queue --save
+```
+
+## usage
