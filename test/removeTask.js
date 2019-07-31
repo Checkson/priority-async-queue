@@ -4,7 +4,7 @@ const paq = new PAQ();
 const removeTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({ id: i }, () => {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           console.log('Step', i, 'async');
           resolve(i);

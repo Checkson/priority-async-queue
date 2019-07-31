@@ -4,19 +4,18 @@ const paq = new PAQ();
 const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
-      success: (res) => {
-        console.log('Success, result is ', res);
+      completed: (res) => {
+        console.log('complete, result is ', res);
       },
-      error: (err) => {
+      failed: (err) => {
         console.log(err);
       }
     }, () => {
       if (i < n / 2) {
-        throw new Error('i is too small!');
+        throw new Error(i + ' is too small!');
       }
       return i;
-    }
-    );
+    });
   }
 };
 
