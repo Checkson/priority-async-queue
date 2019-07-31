@@ -16,7 +16,7 @@ $ yarn add priority-async-queue
 
 ## API
 
-For the sake of fluency, `priority-async-queue` referred to as `paq`.
+For convenience, `priority-async-queue` referred to as `paq`.
 
 **1. addTask**
 
@@ -48,7 +48,7 @@ Remove a task by taskId
 paq.removeTask(taskId)
 ```
 
-`taskId` is the id of the task.
+`taskId` is the id of the task. If remove task successfully, it will return `true`. Otherwise, it will return `false`.
 
 ## Usage
 
