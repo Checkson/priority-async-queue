@@ -5,7 +5,7 @@ const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
       completed: (res) => {
-        console.log('complete, result is ', res);
+        console.log('complete, result is', res);
       },
       failed: (err) => {
         console.log(err);
