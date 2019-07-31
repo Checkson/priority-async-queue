@@ -20,7 +20,7 @@ For convenience, `priority-async-queue` referred to as `paq`.
 
 **1. addTask**
 
-Create a task and join the `paq` queue.
+Create a task and join in the `paq` queue.
 
 ```javascript
 paq.addTask([options, ]callback);
@@ -33,8 +33,10 @@ paq.addTask([options, ]callback);
   id: undefined,          // task id
   priority: 'normal',     // task priority, such as: low, normal, mid, high, urgent
   context: null,          // task executing context
+  start: (options) => {}, // task execution will start callback
   completed: (res) => {}, // task execution completed callback
-  failed: (err) => {}     // task execution failed callback
+  failed: (err) => {},    // task execution failed callback
+  remove: (options) => {} // task execution will remove callback
 }
 ```
 
@@ -42,7 +44,7 @@ paq.addTask([options, ]callback);
 
 **2. removeTask**
 
-Remove a task by taskId
+Remove a task by taskId.
 
 ```javascript
 paq.removeTask(taskId)
@@ -228,6 +230,10 @@ Sometimes, you want to be able to control the completion or failure of the task.
 const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
+      id: i,
+      start: (options) => {
+        console.log('start running task id is', options.id);
+      },
       completed: (res) => {
         console.log('complete, result is', res);
       },
@@ -245,10 +251,15 @@ const callbackTask = (n) => {
 
 callbackTask(5);
 
+// start running task id is 0
 // Error: 0 is too small!
+// start running task id is 1
 // Error: 1 is too small!
+// start running task id is 2
 // Error: 2 is too small!
+// start running task id is 3
 // complete, result is 3
+// start running task id is 4
 // complete, result is 4
 ```
 
@@ -259,7 +270,12 @@ If you need to delete some tasks in time, you can:
 ```javascript
 const removeTask = (n) => {
   for (let i = 0; i < n; i++) {
-    paq.addTask({ id: i }, () => {
+    paq.addTask({
+      id: i,
+      remove: (options) => {
+        console.log('remove task id is', options.id);
+      }
+    }, () => {
       return new Promise(resolve => {
         setTimeout(() => {
           console.log('Step', i, 'async');
@@ -274,6 +290,7 @@ const removeTask = (n) => {
 
 removeTask(5);
 
+// remove task id is 3
 // true
 // false
 // Step 0 async

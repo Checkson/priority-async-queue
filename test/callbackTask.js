@@ -4,6 +4,10 @@ const paq = new PAQ();
 const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
+      id: i,
+      start: (options) => {
+        console.log('start running task id is', options.id);
+      },
       completed: (res) => {
         console.log('complete, result is', res);
       },
