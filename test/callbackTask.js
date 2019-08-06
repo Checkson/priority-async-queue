@@ -5,13 +5,13 @@ const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
       id: i,
-      start: (options) => {
+      start: (ctx, options) => {
         console.log('start running task id is', options.id);
       },
-      completed: (res) => {
+      completed: (ctx, res) => {
         console.log('complete, result is', res);
       },
-      failed: (err) => {
+      failed: (ctx, err) => {
         console.log(err);
       }
     }, () => {

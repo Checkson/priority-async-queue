@@ -5,7 +5,7 @@ const removeTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
       id: i,
-      remove: (options) => {
+      remove: (ctx, options) => {
         console.log('remove task id is', options.id);
       }
     }, () => {

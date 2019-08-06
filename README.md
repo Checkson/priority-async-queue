@@ -52,6 +52,40 @@ paq.removeTask(taskId)
 
 `taskId` is the id of the task. If remove task successfully, it will return `true`. Otherwise, it will return `false`.
 
+**3. pause**
+
+Pause queue execution task.
+
+```javascript
+paq.pause();
+```
+
+**Note:** However, you cannot suspend the currently executing task because the progress of the asynchronous task cannot be detected temporarily.
+
+**4. isPause**
+
+Returns whether the current queue is in a paused state.
+
+```javascript
+paq.isPause; // return true or false.
+```
+
+**5. resume**
+
+Restart the asynchronous queue execution task.
+
+```javascript
+paq.resume();
+```
+
+**6. clearTask**
+
+Clear all tasks in the queue.
+
+```javascript
+paq.clearTask();
+```
+
 ## Usage
 
 ### Basic Usage
@@ -231,13 +265,13 @@ const callbackTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
       id: i,
-      start: (options) => {
+      start: (ctx, options) => {
         console.log('start running task id is', options.id);
       },
-      completed: (res) => {
+      completed: (ctx, res) => {
         console.log('complete, result is', res);
       },
-      failed: (err) => {
+      failed: (ctx, err) => {
         console.log(err);
       }
     }, () => {
@@ -272,7 +306,7 @@ const removeTask = (n) => {
   for (let i = 0; i < n; i++) {
     paq.addTask({
       id: i,
-      remove: (options) => {
+      remove: (ctx, options) => {
         console.log('remove task id is', options.id);
       }
     }, () => {
