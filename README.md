@@ -355,15 +355,23 @@ paq.on('startTask', (options) => {
 });
 ```
 
-**3. removeTask**
+**3. changeTask**
 
 ```javascript
-paq.on('startTask', (options) => {
+paq.on('changeTask', (options) => {
+  // Triggered when a task in the queue changes.
+});
+```
+
+**4. removeTask**
+
+```javascript
+paq.on('removeTask', (options) => {
   // Triggered when the queue remove a task.
 });
 ```
 
-**4. completed**
+**5. completed**
 
 ```javascript
 paq.on('completed', (options, result) => {
@@ -371,7 +379,7 @@ paq.on('completed', (options, result) => {
 });
 ```
 
-**5. failed**
+**6. failed**
 
 ```javascript
 paq.on('failed', (options, err) => {
