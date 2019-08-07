@@ -1,6 +1,6 @@
 {
   "name": "priority-async-queue",
-  "version": "1.1.6",
+  "version": "1.2.6",
   "description": "A priority async queue plugin for node.js",
   "main": "lib/index.js",
   "scripts": {

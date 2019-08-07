@@ -335,6 +335,50 @@ removeTask(5);
 
 **Note:** You must assign an id when creating a task, and delete the task based on the id.
 
+## Queue Event
+
+If you need to monitor the state of the queue, `paq` provides the following event listeners.
+
+**1. addTask**
+
+```javascript
+paq.on('addTask', (options) => {
+  // Triggered when the queue adds a task.
+});
+```
+
+**2. startTask**
+
+```javascript
+paq.on('startTask', (options) => {
+  // Triggered when a task in the queue is about to execute.
+});
+```
+
+**3. removeTask**
+
+```javascript
+paq.on('startTask', (options) => {
+  // Triggered when the queue remove a task.
+});
+```
+
+**4. completed**
+
+```javascript
+paq.on('completed', (options, result) => {
+  // Triggered when the task execution in the queue is complete.
+});
+```
+
+**5. failed**
+
+```javascript
+paq.on('failed', (options, err) => {
+  // Triggered when a task in the queue fails to execute.
+});
+```
+
 ## License
 
 MIT
