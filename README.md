@@ -33,10 +33,10 @@ paq.addTask([options, ]callback);
   id: undefined,          // task id
   priority: 'normal',     // task priority, such as: low, normal, mid, high, urgent
   context: null,          // task executing context
-  start: (options) => {}, // task execution will start callback
-  completed: (res) => {}, // task execution completed callback
-  failed: (err) => {},    // task execution failed callback
-  remove: (options) => {} // task execution will remove callback
+  start: (ctx, options) => {}, // task execution will start callback
+  completed: (ctx, res) => {}, // task execution completed callback
+  failed: (ctx, err) => {},    // task execution failed callback
+  remove: (ctx, options) => {} // task execution will remove callback
 }
 ```
 
