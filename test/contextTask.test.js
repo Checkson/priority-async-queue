@@ -16,6 +16,6 @@ test('Context task test', () => {
       });
     }
   };
-  
+
   contextTask(5);
 });

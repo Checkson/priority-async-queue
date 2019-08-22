@@ -23,6 +23,6 @@ test('Callback task test', () => {
       });
     }
   };
-  
+
   callbackTask(5);
 });

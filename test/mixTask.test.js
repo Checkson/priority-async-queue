@@ -29,8 +29,6 @@ test('Mix task test', () => {
     syncTask(n);
     asyncTask(n);
   };
-  
+
   mixTask(2);
 }, 11000);
-
-

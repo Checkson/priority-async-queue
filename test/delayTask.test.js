@@ -11,7 +11,6 @@ test('Delay task test', (done) => {
       });
     }
   };
-  
+
   delayTask(5);
 }, 11000);
-
