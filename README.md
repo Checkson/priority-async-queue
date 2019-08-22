@@ -40,7 +40,16 @@ paq.addTask([options, ]callback);
 }
 ```
 
-`callback` is a function that describes the logic to execute the task.
+`callback` is a function that describes the logic to execute the task, and it contains two parameters: `ctx` and `options`:
+
+- `ctx` is the paq instance to which the task belongs.
+- `options` is the final value of the *options* parameter for this task.
+
+```javascript
+paq.addTask((ctx, options) => {
+  console.log(ctx === paq); // true
+});
+```
 
 **2. removeTask**
 
@@ -96,11 +105,11 @@ As long as you add a task to `paq`, this task will be executed automatically.
 const PAQ = require('priority-async-queue');
 const paq = new PAQ();
 
-paq.addTask(() => {
-  console.log('This is a task!');
+paq.addTask((ctx, options) => {
+  console.log('This is a simple task!');
 });
 
-// This is a task!
+// This is a simple task!
 ```
 
 ### Sync Task
@@ -195,6 +204,8 @@ contextTask(3);
 // foo1
 // foo2
 ```
+
+**Note:** this does not exist in the arrow function.
 
 ### Delay Task
 

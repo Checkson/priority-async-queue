@@ -23,10 +23,14 @@ const syncTask = (n) => {
   }
 };
 
-const mixTask = (n) => {
-  asyncTask(n);
-  syncTask(n);
-  asyncTask(n);
-};
+test('Mix task test', () => {
+  const mixTask = (n) => {
+    asyncTask(n);
+    syncTask(n);
+    asyncTask(n);
+  };
+  
+  mixTask(2);
+}, 11000);
 
-mixTask(2);
+
