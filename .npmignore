@@ -1,1 +1,10 @@
-test
+# test
+/test
+
+# mac
+.DS_Store
+/__MACOSX
+
+# idea
+.idea
+.vscode
