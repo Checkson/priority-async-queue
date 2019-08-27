@@ -15,3 +15,7 @@
 # error
 yarn-error.log
 npm-error.log
+
+# lock
+yarn.lock
+package-lock.json
