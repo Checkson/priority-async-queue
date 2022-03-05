@@ -355,6 +355,8 @@ removeTask(5);
 // Step 4 async
 ```
 
+**Note:** You must assign an id when creating a task, and delete the task based on the id.
+
 ## Concurrent Task
 
 If you have concurrent requirements, you can try to set the maximum concurrent number when instantiating `paq`.
@@ -378,8 +380,6 @@ paq.addTask(() => sleep(400, 4));
 // 1
 // 4
 ```
-
-**Note:** You must assign an id when creating a task, and delete the task based on the id.
 
 ## Queue Event
 
