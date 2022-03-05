@@ -95,6 +95,14 @@ Clear all tasks in the queue.
 paq.clearTask();
 ```
 
+**7. setExcutingLimit**
+
+Number of concurrent，Default: 1.
+
+```javascript
+paq.setExcutingLimit(2);
+```
+
 ## Usage
 
 ### Basic Usage
@@ -104,6 +112,7 @@ As long as you add a task to `paq`, this task will be executed automatically.
 ```javascript
 const PAQ = require('priority-async-queue');
 const paq = new PAQ();
+// const paq = new PAQ(2);
 
 paq.addTask((ctx, options) => {
   console.log('This is a simple task!');
@@ -111,6 +120,8 @@ paq.addTask((ctx, options) => {
 
 // This is a simple task!
 ```
+
+The constructor accepts one parameter, which represents the maximum number of concurrency, the default value is 1.
 
 ### Sync Task
 
@@ -342,6 +353,30 @@ removeTask(5);
 // Step 1 async
 // Step 2 async
 // Step 4 async
+```
+
+## Concurrent Task
+
+If you have concurrent requirements, you can try to set the maximum concurrent number when instantiating `paq`.
+
+```javascript
+const paq = new PAQ(2);
+
+const sleep = (ms, order) => {
+  return paq.sleep(ms).then(() => {
+    console.log(order);
+  });
+}
+
+paq.addTask(() => sleep(1000, 1));
+paq.addTask(() => sleep(500, 2));
+paq.addTask(() => sleep(300, 3));
+paq.addTask(() => sleep(400, 4));
+
+// 2
+// 3
+// 1
+// 4
 ```
 
 **Note:** You must assign an id when creating a task, and delete the task based on the id.

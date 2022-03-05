@@ -23,7 +23,7 @@ const syncTask = (n) => {
   }
 };
 
-test('Mix task test', () => {
+test('Mix task test', (done) => {
   const mixTask = (n) => {
     asyncTask(n);
     syncTask(n);
@@ -31,4 +31,8 @@ test('Mix task test', () => {
   };
 
   mixTask(2);
-}, 11000);
+
+  paq.sleep(2000).then(() => {
+    done();
+  })
+});

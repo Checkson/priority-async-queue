@@ -1,5 +1,5 @@
 const PAQ = require('../lib');
-const paq = new PAQ();
+const paq = new PAQ(2);
 
 test('Delay task test', (done) => {
   const delayTask = (n) => {
