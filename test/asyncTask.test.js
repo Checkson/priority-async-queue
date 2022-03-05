@@ -5,8 +5,8 @@ test('Aysnc task test', (done) => {
   const sleep = (ms, order) => {
     return paq.sleep(ms).then(() => {
       console.log(`async task order ${order}`);
-    })
-  }
+    });
+  };
 
   const asyncTask = (n) => {
     for (let i = 1; i <= n; i++) {
@@ -18,5 +18,5 @@ test('Aysnc task test', (done) => {
 
   paq.sleep(8000).then(() => {
     done();
-  })
+  });
 }, 8000);

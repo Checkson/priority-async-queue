@@ -34,5 +34,5 @@ test('Mix task test', (done) => {
 
   paq.sleep(2000).then(() => {
     done();
-  })
+  });
 });

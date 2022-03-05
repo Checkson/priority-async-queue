@@ -6,7 +6,7 @@ test('Aysnc task test', (done) => {
     return paq.sleep(ms).then(() => {
       console.log(order);
     });
-  }
+  };
 
   paq.addTask(() => sleep(1000, 1));
   paq.addTask(() => sleep(500, 2));
