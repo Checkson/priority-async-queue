@@ -9,9 +9,6 @@
 # libraries
 /node_modules
 
-# production
-/dist
-
 # error
 yarn-error.log
 npm-error.log
