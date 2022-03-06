@@ -1,6 +1,6 @@
 # priority-async-queue
 
-A prioritized asynchronous (or synchronous) queue for node.js.
+A prioritized asynchronous (or synchronous) queue for node.js. Browsers are currently supported！
 
 ## Install
 
@@ -12,6 +12,17 @@ $ npm install priority-async-queue --save
 
 ```
 $ yarn add priority-async-queue
+```
+
+## Broswer
+
+```javascript
+  <script src="/dist/priority-async-queue.js"></script>
+  <script>
+    const paq = new PAQ();
+
+    paq.addTask(() => console.log('browser task'));
+  </script>
 ```
 
 ## API
@@ -33,6 +44,9 @@ paq.addTask([options, ]callback);
   id: undefined,          // task id
   priority: 'normal',     // task priority, such as: low, normal, mid, high, urgent
   context: null,          // task executing context
+  createTime: 0,          // task create time, unit: ms, paq auto setup
+  startTime: 0,           // task start time, unit: ms, paq auto setup
+  endTime: 0,             // task end time, unit: ms, paq auto setup
   start: (ctx, options) => {}, // task execution will start callback
   completed: (ctx, res) => {}, // task execution completed callback
   failed: (ctx, err) => {},    // task execution failed callback
@@ -379,6 +393,20 @@ paq.addTask(() => sleep(400, 4));
 // 3
 // 1
 // 4
+```
+
+## Time of task
+
+If you need to calculate the task time, you can use `createTime`, `startTime`, `endTime`.
+
+```javascript
+paq.addTask(() => paq.sleep(1000)).on('completed', (options) => {
+  console.log(`The task waiting time is ${options.startTime - options.createTime}ms`);
+  console.log(`The task execution time is ${options.endTime - options.startTime}ms`);
+});
+
+// The task waiting time is 0ms
+// The task execution time is 1002ms
 ```
 
 ## Queue Event

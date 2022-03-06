@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PAQ Demo</title>
+  </head>
+  <body>
+    <script src="/dist/priority-async-queue.js"></script>
+    <script>
+      const paq = new PAQ();
+
+      paq.addTask(() => paq.sleep(1000)).on('completed', (options) => {
+        console.log(`The task waiting time is ${options.startTime - options.createTime}ms`);
+        console.log(`The task execution time is ${options.endTime - options.startTime}ms`);
+      });
+
+      // The task waiting time is 0ms
+      // The task execution time is 1001ms
+    </script>
+  </body>
+</html>
