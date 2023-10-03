@@ -1,12 +1,12 @@
 {
   "name": "priority-async-queue",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A priority async queue plugin for node.js",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint --ext .js lib/ --ext .js test/",
     "lintFix": "eslint --fix --ext .js lib/ --fix --ext .js test/",
-    "test": "jest test/costTimeTask.test.js",
+    "test": "jest test/*.test.js",
     "build": "webpack --mode production",
     "dev": "anywhere 8080"
   },

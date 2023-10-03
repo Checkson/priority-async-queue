@@ -368,26 +368,27 @@ var AsyncQueue = /*#__PURE__*/function (_Event) {
                 options.endTime = this.getNowTimestamp();
                 completed && completed.call(context, this, result);
                 this.emit('completed', options, result);
-                _context.next = 22;
+                _context.next = 23;
                 break;
 
               case 18:
                 _context.prev = 18;
                 _context.t0 = _context["catch"](6);
+                options.endTime = this.getNowTimestamp();
                 failed && failed.call(context, this, _context.t0);
                 this.emit('failed', options, _context.t0);
 
-              case 22:
-                _context.prev = 22;
+              case 23:
+                _context.prev = 23;
                 this.changeTask(task);
-                return _context.finish(22);
+                return _context.finish(23);
 
-              case 25:
+              case 26:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[6, 18, 22, 25]]);
+        }, _callee, this, [[6, 18, 23, 26]]);
       }));
 
       function executeTask(_x) {
@@ -782,6 +783,7 @@ module.exports = Task;
 var AsyncQueue = __webpack_require__(194);
 
 module.exports = AsyncQueue;
+module.exports["default"] = AsyncQueue;
 
 /***/ }),
 
