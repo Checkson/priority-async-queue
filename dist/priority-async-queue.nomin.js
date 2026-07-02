@@ -307,14 +307,22 @@ var AsyncQueue = /*#__PURE__*/function (_Event) {
 
     _this = _super.call(this);
     _this._pause = false;
-    _this.executeLimit = executeLimit;
+    _this.executeLimit = _this.validateExecuteLimit(executeLimit);
     _this.executingQueue = [];
     _this.waitingQueue = new PriorityQueue();
-    _this.eventHandlerMap = {};
     return _this;
   }
 
   _createClass(AsyncQueue, [{
+    key: "validateExecuteLimit",
+    value: function validateExecuteLimit(executeLimit) {
+      if (!Number.isInteger(executeLimit) || executeLimit < 1) {
+        throw new Error('executeLimit must be an integer greater than or equal to 1!');
+      }
+
+      return executeLimit;
+    }
+  }, {
     key: "addTask",
     value: function addTask() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -403,21 +411,42 @@ var AsyncQueue = /*#__PURE__*/function (_Event) {
       return this.waitingQueue.dequeue();
     }
   }, {
+    key: "fillExecutingSlots",
+    value: function fillExecutingSlots() {
+      if (this.isPause) {
+        return;
+      }
+
+      while (this.executingQueue.length < this.executeLimit) {
+        var task = this.nextTask();
+
+        if (!task) {
+          break;
+        }
+
+        this.emit('changeTask', task.options);
+        this.executeTask(task);
+      }
+    }
+  }, {
     key: "changeTask",
     value: function changeTask(task) {
       if (task) {
         var index = this.executingQueue.findIndex(function (item) {
           return item === task;
         });
-        this.executingQueue.splice(index, 1);
+
+        if (index >= 0) {
+          this.executingQueue.splice(index, 1);
+        }
       }
 
       if (!this.isPause) {
-        var _task = this.nextTask();
+        var nextTask = this.nextTask();
 
-        if (_task) {
-          this.emit('changeTask', _task.options);
-          this.executeTask(_task);
+        if (nextTask) {
+          this.emit('changeTask', nextTask.options);
+          this.executeTask(nextTask);
         }
       }
     }
@@ -462,10 +491,7 @@ var AsyncQueue = /*#__PURE__*/function (_Event) {
     key: "resume",
     value: function resume() {
       this._pause = false;
-
-      if (this.executingQueue.length < this.executeLimit) {
-        this.changeTask();
-      }
+      this.fillExecutingSlots();
     }
   }, {
     key: "sleep",
@@ -479,7 +505,13 @@ var AsyncQueue = /*#__PURE__*/function (_Event) {
   }, {
     key: "setExcutingLimit",
     value: function setExcutingLimit(executeLimit) {
-      this.executeLimit = executeLimit;
+      this.executeLimit = this.validateExecuteLimit(executeLimit);
+      this.fillExecutingSlots();
+    }
+  }, {
+    key: "setExecutingLimit",
+    value: function setExecutingLimit(executeLimit) {
+      this.setExcutingLimit(executeLimit);
     }
   }, {
     key: "getNowTimestamp",
@@ -552,7 +584,11 @@ var Event = /*#__PURE__*/function () {
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var eventHandler = _step.value;
-            eventHandler.call.apply(eventHandler, [this].concat(params));
+
+            try {
+              eventHandler.call.apply(eventHandler, [this].concat(params));
+            } catch (err) {// Keep other listeners running when one handler throws.
+            }
           }
         } catch (err) {
           _iterator.e(err);
@@ -600,13 +636,18 @@ var PriorityQueue = /*#__PURE__*/function () {
   }
 
   _createClass(PriorityQueue, [{
+    key: "getTaskWeight",
+    value: function getTaskWeight(task) {
+      return task.options.weight || 0;
+    }
+  }, {
     key: "enqueue",
     value: function enqueue(task) {
-      var curWeight = task.options.weight || 0;
+      var curWeight = this.getTaskWeight(task);
       var insertIndex = this.length();
 
       for (var i = insertIndex; i > 0; i--) {
-        var tmpWeight = this.getTaskByIndex(i - 1).weight || 0;
+        var tmpWeight = this.getTaskWeight(this.getTaskByIndex(i - 1));
 
         if (curWeight < tmpWeight) {
           insertIndex = i - 1;
@@ -698,29 +739,37 @@ var Task = /*#__PURE__*/function () {
   _createClass(Task, [{
     key: "initArgs",
     value: function initArgs() {
-      var len = arguments.length;
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var len = args.length;
 
       if (len === 0) {
         return;
       }
 
       if (len === 1) {
-        if (typeof (arguments.length <= 0 ? undefined : arguments[0]) === 'function') {
-          this.callback = arguments.length <= 0 ? undefined : arguments[0];
+        if (typeof args[0] === 'function') {
+          this.callback = args[0];
         } else {
           throw new Error('Invalid Argument For PAQ, Expected A Function!');
         }
       } else {
-        if (_typeof(arguments.length <= 0 ? undefined : arguments[0]) === 'object') {
-          this.options = Object.assign(this.options, arguments.length <= 0 ? undefined : arguments[0]);
-          this.options.weight = this.setWeightByPriority();
+        if (_typeof(args[0]) === 'object') {
+          this.options = Object.assign(this.options, args[0]);
+
+          if ('priority' in args[0] || args[0].weight === undefined) {
+            this.options.weight = this.setWeightByPriority();
+          }
+
           this.validateArgs(this.options);
         } else {
           throw new Error('Invalid First Argument For PAQ, Expected A Object!');
         }
 
-        if (typeof (arguments.length <= 1 ? undefined : arguments[1]) === 'function') {
-          this.callback = arguments.length <= 1 ? undefined : arguments[1];
+        if (typeof args[1] === 'function') {
+          this.callback = args[1];
         } else {
           throw new Error('Invalid Second Argument For PAQ, Expected A Function!');
         }
